@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Navbar from './components/Navbar';
+import Internship from './components/Internship';
+import NotFound from './components/NotFound';
+import AllUsers from './components/AllUsers';
+import AddUser from './components/AddUser';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import { FirebaseApp } from '@firebase/app';
+//import * as firebase from 'firebase';
+import "firebase/firestore";
+import EditUser from './components/EditUser';
+import {Link } from 'react-router-dom';
+
+
+
 
 function App() {
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar/>
+      <Switch/>
+        <Route  path="/" exact component={Internship} />
+        <Route  path="/all" exact component={AllUsers} />
+        <Route  path="/add" exact component={AddUser} />
+        <Route path="/edit/:id" component={EditUser} />
+      <Switch/>
+        
+      
+    </Router>
   );
 }
 
