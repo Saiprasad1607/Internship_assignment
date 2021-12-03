@@ -1,5 +1,3 @@
-//import firebase from "firebase/compat/app";
-//import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import "firebase/compat/firestore";

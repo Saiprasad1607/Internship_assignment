@@ -1,12 +1,10 @@
 
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import { Button, FormControl, Input, InputLabel, makeStyles, Typography, useScrollTrigger } from '@material-ui/core';
 import db from '../database/firebase';
-import {collection, doc, updateDoc, getDocs } from '@firebase/firestore';
+import { collection, doc, updateDoc, getDocs } from '@firebase/firestore';
 import { useLocation } from 'react-router-dom';
-
-
 
 const useStyle = makeStyles({
     container: {
@@ -18,8 +16,6 @@ const useStyle = makeStyles({
     }
 })
 
-
-
 const EditUser = () => {
     const location = useLocation();
     console.log(location.state.updatedata)
@@ -28,27 +24,26 @@ const EditUser = () => {
     const [age, setAge] = useState(location.state.updatedata.age);
     const [email, setEmail] = useState(location.state.updatedata.email);
     const [loader, setLoader] = useState(false);
-    const databaseRef = collection(db, 'react-firebase');
 
-    const editData = async() => {
-        const data = doc(db, 'react-firebase',location.state.updatedata )
-        // console.log(data)
-        updateDoc(data, {id1:(id),
-                        name:(name),
-                        age:(age),
-                        email:(email)})
-        .then(() => {
-        setLoader(false);
-        alert("Details Updated");
-        
-        setId("");
-        setName("");
-        setAge("");
-        setEmail("");
-                                })
+    const editData = async () => {
+        const data = doc(db, 'Internship', location.state.updatedata.id)
+        updateDoc(data, {
+            name: (name),
+            age: (age),
+            email: (email)
+        })
+            .then(() => {
+                setLoader(false);
+                alert("Details Updated");
+
+                setId("");
+                setName("");
+                setAge("");
+                setEmail("");
+            })
     }
- 
-    
+
+
 
     const classes = useStyle();
     const [users, setUsers] = useState([]);
@@ -57,25 +52,22 @@ const EditUser = () => {
     useEffect(() => {
         const getUsers = async () => {
             const data = await getDocs(usersCollectionRef);
-            setUsers(data.docs.map((doc) => ({...doc.data(), id : doc.id})));
-            
+            setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         }
-    
-       
         getUsers();
-}, []);
-    return(
-        
-        <FormGroup className = {classes.container}  >
+    }, []);
+    return (
+
+        <FormGroup className={classes.container}  >
             <Typography variant="h4" align="center" >EditUser</Typography>
-           
+
             <FormControl>
                 <InputLabel>Id</InputLabel>
                 <Input value={id} onChange={(e) => setId(e.target.value)} value={id} />
             </FormControl>
             <FormControl>
                 <InputLabel>Name</InputLabel>
-                <Input value={name} onChange={(e) => setName(e.target.value)} value={name}  />
+                <Input value={name} onChange={(e) => setName(e.target.value)} value={name} />
             </FormControl>
             <FormControl>
                 <InputLabel>Age</InputLabel>
@@ -83,21 +75,21 @@ const EditUser = () => {
             </FormControl>
             <FormControl>
                 <InputLabel>Email</InputLabel>
-                <Input value={email} onChange={(e) => setEmail(e.target.value)} value={email}/>
+                <Input value={email} onChange={(e) => setEmail(e.target.value)} value={email} />
             </FormControl>
             {
                 users.map((user) => {
-                    return(
+                    return (
                         <Button variant="contained" color="primary" onClick={() => editData()}>Edit User</Button>
                     )
-                // <Button variant="contained" color="primary" onClick={() => editData()}>Edit User</Button>
-             } 
+                    // <Button variant="contained" color="primary" onClick={() => editData()}>Edit User</Button>
+                }
                 )}
-            
-            
-            
+
+
+
         </FormGroup>
-        
+
     );
 
 }
